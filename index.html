@@ -1,0 +1,1430 @@
+<!DOCTYPE html>
+<html lang="vi" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Domino's Pizza - Paving for Pizza Campaign</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <!-- Vietnamese-Friendly Standard Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;600;700;800;900&family=Outfit:wght@400;600;800;900&family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #f1f5f9;
+            color: #0f172a;
+            overflow-x: hidden;
+        }
+        h1, h2, h3, .font-heading {
+            font-family: 'Lexend', 'Outfit', sans-serif;
+        }
+        
+        .domino-red { background-color: #E31837; }
+        .domino-blue { background-color: #006491; }
+        .text-domino-red { color: #E31837; }
+        .text-domino-blue { color: #006491; }
+
+        /* Neobrutalism / Pop Art Modern Shadows */
+        .pop-shadow {
+            box-shadow: 6px 6px 0px #000000;
+        }
+        .pop-shadow-lg {
+            box-shadow: 10px 10px 0px #000000;
+        }
+        .pop-shadow-sm {
+            box-shadow: 3px 3px 0px #000000;
+        }
+        .pop-shadow-red {
+            box-shadow: 6px 6px 0px #E31837;
+        }
+
+        /* 3D Transform Utilities */
+        .perspective-1000 {
+            perspective: 1000px;
+        }
+        .preserve-3d {
+            transform-style: preserve-3d;
+        }
+        .backface-hidden {
+            backface-visibility: hidden;
+            -webkit-backface-visibility: hidden;
+        }
+        .rotate-y-180 {
+            transform: rotateY(180deg);
+        }
+
+        /* Interactive Pizza Slice Hover/Active Effects */
+        .pizza-slice {
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+            transform-origin: center;
+        }
+        .pizza-slice:hover {
+            transform: scale(1.08) translateY(-8px);
+            filter: brightness(1.1);
+            z-index: 20;
+        }
+
+        /* 3D Pizza Box Flip Animation */
+        .box-container {
+            perspective: 1000px;
+        }
+        .box-card {
+            transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            transform-style: preserve-3d;
+        }
+        .box-container.open .box-card {
+            transform: rotateY(180deg);
+        }
+
+        /* Floating Animation */
+        @keyframes float {
+            0% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-10px) rotate(1.5deg); }
+            100% { transform: translateY(0px) rotate(0deg); }
+        }
+        .floating {
+            animation: float 4s ease-in-out infinite;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #006491;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #E31837;
+            border: 2px solid #000;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body class="bg-slate-100 text-slate-900 border-t-8 border-[#E31837]">
+
+    <header class="sticky top-0 z-50 bg-[#006491] border-b-4 border-black pop-shadow py-3 px-4 sm:px-8">
+        <div class="max-w-7xl mx-auto flex flex-wrap justify-between items-center gap-4">
+            <!-- Brand Logo -->
+            <div onclick="showPage('home')" class="cursor-pointer flex items-center gap-3 bg-white px-4 py-2 rounded-2xl border-3 border-black pop-shadow-sm hover:scale-105 transition-transform">
+                <span class="text-3xl text-[#E31837]"><i class="fa-solid fa-pizza-slice"></i></span>
+                <div>
+                    <h1 class="font-black text-xl text-[#006491] leading-none uppercase tracking-wider">DOMINO'S</h1>
+                    <span class="text-[10px] font-black text-[#E31837] tracking-widest block uppercase">PAVING FOR PIZZA</span>
+                </div>
+            </div>
+
+            <!-- Navigation Links -->
+            <nav class="flex flex-wrap gap-2 sm:gap-3 text-xs sm:text-sm font-bold">
+                <button onclick="showPage('home')" id="nav-home" class="nav-btn bg-white text-slate-900 px-3.5 py-2 rounded-xl border-2 border-black pop-shadow-sm hover:bg-yellow-300 transition-colors">
+                    <i class="fa-solid fa-house mr-1"></i> Trang chủ
+                </button>
+                <button onclick="showPage('page1')" id="nav-page1" class="nav-btn bg-white text-slate-900 px-3.5 py-2 rounded-xl border-2 border-black pop-shadow-sm hover:bg-yellow-300 transition-colors">
+                    <i class="fa-solid fa-circle-info mr-1"></i> 1. Tổng quan
+                </button>
+                <button onclick="showPage('page2')" id="nav-page2" class="nav-btn bg-white text-slate-900 px-3.5 py-2 rounded-xl border-2 border-black pop-shadow-sm hover:bg-yellow-300 transition-colors">
+                    <i class="fa-solid fa-chart-pie mr-1"></i> 2. Mô hình PESO
+                </button>
+                <button onclick="showPage('page3')" id="nav-page3" class="nav-btn bg-white text-slate-900 px-3.5 py-2 rounded-xl border-2 border-black pop-shadow-sm hover:bg-yellow-300 transition-colors">
+                    <i class="fa-solid fa-box-open mr-1"></i> 3. Hiệu quả & Hạn chế
+                </button>
+                <button onclick="showPage('page4')" id="nav-page4" class="nav-btn bg-white text-slate-900 px-3.5 py-2 rounded-xl border-2 border-black pop-shadow-sm hover:bg-yellow-300 transition-colors">
+                    <i class="fa-solid fa-lightbulb mr-1"></i> 4. Bài học
+                </button>
+                <button onclick="showPage('page5')" id="nav-page5" class="nav-btn bg-yellow-400 text-slate-900 px-3.5 py-2 rounded-xl border-2 border-black pop-shadow-sm hover:bg-yellow-300 transition-all hover:scale-105 font-black">
+                    <i class="fa-solid fa-gamepad mr-1"></i> 5. Game & Vá đường VN 🇻🇳
+                </button>
+            </nav>
+        </div>
+    </header>
+
+    <main class="max-w-7xl mx-auto p-4 sm:p-6 md:p-8 min-h-[calc(100vh-100px)]">
+
+        <!-- ================= HOME COVER PAGE ================= -->
+        <section id="home" class="page-section space-y-8">
+            <!-- Hero Banner -->
+            <div class="relative bg-gradient-to-br from-[#006491] via-[#004f73] to-[#003852] rounded-3xl border-4 border-black pop-shadow-lg p-6 sm:p-10 text-white overflow-hidden">
+                <div class="grid lg:grid-cols-12 gap-8 items-center relative z-10">
+                    <div class="lg:col-span-7 space-y-6">
+                        <div class="inline-flex items-center gap-2 bg-yellow-400 text-black px-4 py-1.5 rounded-full border-2 border-black text-xs sm:text-sm font-black uppercase tracking-wider pop-shadow-sm">
+                            <i class="fa-solid fa-bullhorn"></i> Case Study PR & Truyền Thông Đột Phá
+                        </div>
+                        <h1 class="text-3xl sm:text-5xl lg:text-6xl font-black leading-tight tracking-tight uppercase font-heading">
+                            Paving For Pizza <br>
+                            <span class="text-yellow-300 drop-shadow-[0_3px_0_#000]">Khi Domino's Vá Đường Phố Mỹ</span>
+                        </h1>
+                        <p class="text-base sm:text-lg text-slate-100 font-medium leading-relaxed max-w-2xl">
+                            Khám phá chiến dịch truyền thông huyền thoại của <span class="font-bold text-yellow-300 underline">Domino's Pizza</span> - Tự chi tiền sửa chữa hàng ngàn ổ gà khắp nước Mỹ với thông điệp độc đáo: <span class="font-bold italic bg-[#E31837] px-2 py-0.5 rounded border border-black text-white">"Bảo vệ chiếc bánh Pizza khỏi bị hư hỏng trên đường giao!"</span>
+                        </p>
+                        <div class="pt-2 flex flex-wrap gap-4">
+                            <button onclick="showPage('page1')" class="bg-[#E31837] hover:bg-red-600 text-white font-black text-base sm:text-lg px-8 py-4 rounded-2xl border-4 border-black pop-shadow hover:scale-105 active:scale-95 transition-all flex items-center gap-3 uppercase">
+                                Khám phá chiến dịch <i class="fa-solid fa-arrow-right"></i>
+                            </button>
+                            <button onclick="showPage('page2')" class="bg-white hover:bg-slate-100 text-slate-900 font-black text-base sm:text-lg px-8 py-4 rounded-2xl border-4 border-black pop-shadow hover:scale-105 active:scale-95 transition-all flex items-center gap-3">
+                                Mô hình PESO <i class="fa-solid fa-chart-pie text-[#006491]"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Hero Visual Collage -->
+                    <div class="lg:col-span-5 flex justify-center">
+                        <div class="relative w-full max-w-md floating">
+                            <div class="bg-white p-4 rounded-3xl border-4 border-black pop-shadow-lg text-slate-900 text-center space-y-3">
+                                <div class="relative rounded-2xl border-3 border-black overflow-hidden h-56 bg-slate-200">
+                                    <img src="https://images.unsplash.com/photo-1513104890138-7c749659a591?auto=format&fit=crop&w=800&q=80" alt="Domino's Pizza Fresh Slice" class="w-full h-full object-cover">
+                                    <div class="absolute bottom-3 left-3 bg-[#E31837] text-white font-black text-xs py-1 px-3 rounded-lg border-2 border-black uppercase pop-shadow-sm">
+                                        "OH YES WE DID"
+                                    </div>
+                                </div>
+                                <div class="grid grid-cols-3 gap-2 text-center pt-1">
+                                    <div class="bg-sky-50 p-2 rounded-xl border-2 border-black">
+                                        <p class="text-xl font-black text-[#006491]">50</p>
+                                        <p class="text-[10px] font-bold text-slate-600 uppercase">Bang tại Mỹ</p>
+                                    </div>
+                                    <div class="bg-red-50 p-2 rounded-xl border-2 border-black">
+                                        <p class="text-xl font-black text-[#E31837]">137K+</p>
+                                        <p class="text-[10px] font-bold text-slate-600 uppercase">Đề cử lấp đường</p>
+                                    </div>
+                                    <div class="bg-amber-50 p-2 rounded-xl border-2 border-black">
+                                        <p class="text-xl font-black text-amber-600">1B+</p>
+                                        <p class="text-[10px] font-bold text-slate-600 uppercase">Media Reach</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quick Navigation Cards with Real Images -->
+            <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
+                <div onclick="showPage('page1')" class="cursor-pointer bg-white p-4 rounded-2xl border-3 border-black pop-shadow hover:bg-sky-50 transition-all hover:-translate-y-1 space-y-3">
+                    <div class="h-32 rounded-xl border-2 border-black overflow-hidden relative">
+                        <img src="https://images.unsplash.com/photo-1590947132387-155cc02f3212?auto=format&fit=crop&w=600&q=80" alt="Pizza Delivery Scooter" class="w-full h-full object-cover">
+                        <span class="absolute top-2 left-2 bg-[#006491] text-white w-8 h-8 rounded-lg border-2 border-black flex items-center justify-center font-black text-sm">1</span>
+                    </div>
+                    <h3 class="font-black text-lg text-slate-900 font-heading">1. Tổng Quan Chiến Dịch</h3>
+                    <p class="text-xs text-slate-600 font-medium">Bối cảnh, 2 giai đoạn triển khai, mục tiêu & đối tượng mục tiêu.</p>
+                </div>
+
+                <div onclick="showPage('page2')" class="cursor-pointer bg-white p-4 rounded-2xl border-3 border-black pop-shadow hover:bg-red-50 transition-all hover:-translate-y-1 space-y-3">
+                    <div class="h-32 rounded-xl border-2 border-black overflow-hidden relative">
+                        <img src="https://images.unsplash.com/photo-1534308983496-4fabb1a015ee?auto=format&fit=crop&w=600&q=80" alt="Pizza 4 Slices PESO" class="w-full h-full object-cover">
+                        <span class="absolute top-2 left-2 bg-[#E31837] text-white w-8 h-8 rounded-lg border-2 border-black flex items-center justify-center font-black text-sm">2</span>
+                    </div>
+                    <h3 class="font-black text-lg text-slate-900 font-heading">2. Phân Tích PESO 3D</h3>
+                    <p class="text-xs text-slate-600 font-medium">Mô hình bánh Pizza 4 miếng tương tác: Paid, Earned, Shared, Owned.</p>
+                </div>
+
+                <div onclick="showPage('page3')" class="cursor-pointer bg-white p-4 rounded-2xl border-3 border-black pop-shadow hover:bg-yellow-50 transition-all hover:-translate-y-1 space-y-3">
+                    <div class="h-32 rounded-xl border-2 border-black overflow-hidden relative">
+                        <img src="https://images.unsplash.com/photo-1574071318508-1cdbab80d002?auto=format&fit=crop&w=600&q=80" alt="Pizza Box" class="w-full h-full object-cover">
+                        <span class="absolute top-2 left-2 bg-yellow-400 text-black w-8 h-8 rounded-lg border-2 border-black flex items-center justify-center font-black text-sm">3</span>
+                    </div>
+                    <h3 class="font-black text-lg text-slate-900 font-heading">3. Hiệu Quả & Hạn Chế</h3>
+                    <p class="text-xs text-slate-600 font-medium">Số liệu truyền thông & 4 Hộp Pizza 3D mở nắp xem hạn chế.</p>
+                </div>
+
+                <div onclick="showPage('page5')" class="cursor-pointer bg-white p-4 rounded-2xl border-3 border-black pop-shadow hover:bg-emerald-50 transition-all hover:-translate-y-1 space-y-3">
+                    <div class="h-32 rounded-xl border-2 border-black overflow-hidden relative">
+                        <img src="https://images.unsplash.com/photo-1526304640581-d334cdbbf45e?auto=format&fit=crop&w=600&q=80" alt="Road Repair Pothole" class="w-full h-full object-cover">
+                        <span class="absolute top-2 left-2 bg-emerald-500 text-white w-8 h-8 rounded-lg border-2 border-black flex items-center justify-center font-black text-sm">🇻🇳</span>
+                    </div>
+                    <h3 class="font-black text-lg text-slate-900 font-heading">5. Đề Xuyết Đường VN & Game</h3>
+                    <p class="text-xs text-slate-600 font-medium">Chọn Tỉnh/Thành đề xuất vá đường tại Việt Nam & chơi Game.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= TRANG 1: TỔNG QUAN CHIẾN DỊCH ================= -->
+        <section id="page1" class="page-section hidden space-y-8">
+            <div class="bg-white p-6 rounded-3xl border-4 border-black pop-shadow space-y-2">
+                <span class="bg-[#006491] text-white text-xs font-black px-3 py-1 rounded-full uppercase border border-black">Trang 1</span>
+                <h2 class="text-3xl font-black text-[#006491] uppercase font-heading">Tổng Quan Chiến Dịch "Paving For Pizza"</h2>
+                <p class="text-slate-600 font-medium">Chi tiết về đơn vị thực hiện, thời gian tổ chức theo từng giai đoạn, mục tiêu chiến lược và các nhóm đối tượng mục tiêu.</p>
+            </div>
+
+            <!-- Visual Imagery Row -->
+            <div class="grid sm:grid-cols-3 gap-4">
+                <div class="rounded-2xl border-3 border-black overflow-hidden h-44 pop-shadow">
+                    <img src="https://images.unsplash.com/photo-1541745537411-b8046dc6d66c?auto=format&fit=crop&w=600&q=80" alt="Domino's Pizza Store" class="w-full h-full object-cover">
+                </div>
+                <div class="rounded-2xl border-3 border-black overflow-hidden h-44 pop-shadow">
+                    <img src="https://images.unsplash.com/photo-1515165562839-978bbcf18277?auto=format&fit=crop&w=600&q=80" alt="Road Pothole Infrastructure" class="w-full h-full object-cover">
+                </div>
+                <div class="rounded-2xl border-3 border-black overflow-hidden h-44 pop-shadow">
+                    <img src="https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?auto=format&fit=crop&w=600&q=80" alt="Delicious Pizza Box" class="w-full h-full object-cover">
+                </div>
+            </div>
+
+            <!-- Overview Cards -->
+            <div class="grid md:grid-cols-2 gap-6">
+                <!-- Agency & Objectives -->
+                <div class="bg-white p-6 rounded-3xl border-4 border-black pop-shadow space-y-4">
+                    <div class="flex items-center gap-3">
+                        <div class="w-12 h-12 bg-[#E31837] text-white rounded-2xl border-2 border-black flex items-center justify-center text-2xl font-black">
+                            <i class="fa-solid fa-building"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-black text-xl text-slate-900 uppercase font-heading">Đơn Vị Thực Hiện</h3>
+                            <p class="text-sm font-bold text-[#E31837]">Domino's Pizza (Phối hợp cùng Agency CP+B)</p>
+                        </div>
+                    </div>
+
+                    <hr class="border-2 border-slate-200">
+
+                    <div class="space-y-3">
+                        <h4 class="font-black text-lg text-[#006491] uppercase font-heading"><i class="fa-solid fa-bullseye mr-2"></i>Mục Tiêu Chiến Dịch</h4>
+                        <ul class="space-y-2.5 text-sm font-medium text-slate-700">
+                            <li class="flex items-start gap-2">
+                                <i class="fa-solid fa-circle-check text-emerald-500 mt-1 text-base"></i>
+                                <span><strong>Giữ vững định vị thương hiệu:</strong> Khẳng định vị thế "Đơn vị vận chuyển pizza hàng đầu thế giới".</span>
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <i class="fa-solid fa-circle-check text-emerald-500 mt-1 text-base"></i>
+                                <span><strong>Tăng độ nhận biết (Brand Awareness):</strong> Thu hút sự chú ý của toàn cộng đồng thông qua hành động thực tế khác biệt.</span>
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <i class="fa-solid fa-circle-check text-emerald-500 mt-1 text-base"></i>
+                                <span><strong>Tăng tình cảm thương hiệu (Brand Love):</strong> Tạo dựng hình ảnh một thương hiệu trách nhiệm, hài hước và hết lòng vì chất lượng chiếc bánh đến tay khách hàng.</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Target Audience -->
+                <div class="bg-white p-6 rounded-3xl border-4 border-black pop-shadow space-y-4">
+                    <div class="flex items-center gap-3">
+                        <div class="w-12 h-12 bg-yellow-400 text-black rounded-2xl border-2 border-black flex items-center justify-center text-2xl font-black">
+                            <i class="fa-solid fa-users"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-black text-xl text-slate-900 uppercase font-heading">Đối Tượng Hướng Tới</h3>
+                            <p class="text-sm font-bold text-slate-500">Target Audiences</p>
+                        </div>
+                    </div>
+
+                    <hr class="border-2 border-slate-200">
+
+                    <div class="grid gap-3">
+                        <div class="bg-slate-50 p-3.5 rounded-xl border-2 border-black flex items-center gap-3">
+                            <span class="text-3xl">🛵</span>
+                            <div>
+                                <h5 class="font-black text-sm text-slate-900">Khách hàng đặt Pizza giao tận nơi</h5>
+                                <p class="text-xs text-slate-600 font-medium">Những người mong muốn nhận chiếc bánh pizza hoàn hảo, không bị trôi phô mai hay méo hộp.</p>
+                            </div>
+                        </div>
+
+                        <div class="bg-slate-50 p-3.5 rounded-xl border-2 border-black flex items-center gap-3">
+                            <span class="text-3xl">🚗</span>
+                            <div>
+                                <h5 class="font-black text-sm text-slate-900">Cộng đồng người lái xe & Cư dân đô thị</h5>
+                                <p class="text-xs text-slate-600 font-medium">Người dân bức xúc vì tình trạng ổ gà làm hư hỏng phương tiện giao thông hàng ngày.</p>
+                            </div>
+                        </div>
+
+                        <div class="bg-slate-50 p-3.5 rounded-xl border-2 border-black flex items-center gap-3">
+                            <span class="text-3xl">🏛️</span>
+                            <div>
+                                <h5 class="font-black text-sm text-slate-900">Chính quyền địa phương các thành phố</h5>
+                                <p class="text-xs text-slate-600 font-medium">Các hội đồng đô thị thiếu hụt ngân sách bảo trì hạ tầng đường bộ.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Campaign Timeline -->
+            <div class="bg-white p-6 rounded-3xl border-4 border-black pop-shadow space-y-6">
+                <h3 class="font-black text-2xl text-[#006491] uppercase flex items-center gap-2 font-heading">
+                    <i class="fa-solid fa-calendar-days text-[#E31837]"></i> Thời Gian Triển Khai (2 Giai Đoạn Cốt Lõi)
+                </h3>
+
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div class="bg-sky-50 p-6 rounded-2xl border-3 border-black pop-shadow space-y-3">
+                        <div class="inline-block bg-[#006491] text-white px-3 py-1 rounded-lg text-xs font-black uppercase border border-black">
+                            Giai đoạn 1 (06/2018 - 08/2018)
+                        </div>
+                        <h4 class="font-black text-xl text-slate-900 font-heading">Thử Nghiệm & Kích Hoạt CSR Ban Đầu</h4>
+                        <p class="text-sm text-slate-700 leading-relaxed font-medium">
+                            Diễn ra từ <strong>tháng 6 đến tháng 8 năm 2018</strong>. Domino's bắt đầu hợp tác thử nghiệm tài trợ ngân sách sửa ổ gà tại các thành phố nhỏ (Bartonville, Milford, Athens, Hilo). Tạo ra làn sóng truyền thông rầm rộ trên TVC và mạng xã hội.
+                        </p>
+                    </div>
+
+                    <div class="bg-red-50 p-6 rounded-2xl border-3 border-black pop-shadow space-y-3">
+                        <div class="inline-block bg-[#E31837] text-white px-3 py-1 rounded-lg text-xs font-black uppercase border border-black">
+                            Giai đoạn 2 (08/2018 - 12/2018)
+                        </div>
+                        <h4 class="font-black text-xl text-slate-900 font-heading">Mở Rộng Quy Mô Toàn Quốc (50 Bang)</h4>
+                        <p class="text-sm text-slate-700 leading-relaxed font-medium">
+                            Diễn ra từ <strong>tháng 8 đến tháng 12 năm 2018</strong>. Trước sự hưởng ứng ngoài mong đợi của công chúng, Domino's nhân rộng chương trình tài trợ vá đường đến đủ <strong>50 tiểu bang tại Hoa Kỳ</strong> dựa trên lượt bình chọn của cư dân.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= TRANG 2: MÔ HÌNH PESO 3D ================= -->
+        <section id="page2" class="page-section hidden space-y-8">
+            <div class="bg-white p-6 rounded-3xl border-4 border-black pop-shadow space-y-2">
+                <span class="bg-[#E31837] text-white text-xs font-black px-3 py-1 rounded-full uppercase border border-black">Trang 2</span>
+                <h2 class="text-3xl font-black text-[#E31837] uppercase font-heading">Phân Tích Mô Hình PESO (3D Pizza Slice)</h2>
+                <p class="text-slate-600 font-medium">Nhấp trực tiếp vào từng miếng bánh Pizza 3D dưới đây để xem chi tiết phân tích từng kênh truyền thông.</p>
+            </div>
+
+            <!-- 3D Pizza Slice Interactive Model -->
+            <div class="grid lg:grid-cols-12 gap-8 items-center">
+                <!-- Left: Interactive Pizza -->
+                <div class="lg:col-span-6 flex flex-col items-center py-4">
+                    <div class="relative w-80 h-80 sm:w-96 sm:h-96">
+                        <div class="absolute inset-0 rounded-full border-8 border-black bg-amber-100 pop-shadow-lg flex flex-wrap p-2 rotate-12">
+                            
+                            <!-- Slice Paid -->
+                            <div onclick="selectSlice('paid')" id="slice-paid" class="pizza-slice w-1/2 h-1/2 bg-[#E31837] text-white border-2 border-black rounded-tl-full flex flex-col items-center justify-center p-4 cursor-pointer relative group">
+                                <span class="text-3xl sm:text-4xl font-black">P</span>
+                                <span class="text-xs font-extrabold uppercase tracking-wider">Paid Media</span>
+                                <i class="fa-solid fa-rectangle-ad text-xl mt-1 group-hover:scale-125 transition-transform"></i>
+                            </div>
+
+                            <!-- Slice Earned -->
+                            <div onclick="selectSlice('earned')" id="slice-earned" class="pizza-slice w-1/2 h-1/2 bg-[#006491] text-white border-2 border-black rounded-tr-full flex flex-col items-center justify-center p-4 cursor-pointer relative group">
+                                <span class="text-3xl sm:text-4xl font-black">E</span>
+                                <span class="text-xs font-extrabold uppercase tracking-wider">Earned Media</span>
+                                <i class="fa-solid fa-newspaper text-xl mt-1 group-hover:scale-125 transition-transform"></i>
+                            </div>
+
+                            <!-- Slice Shared -->
+                            <div onclick="selectSlice('shared')" id="slice-shared" class="pizza-slice w-1/2 h-1/2 bg-yellow-400 text-black border-2 border-black rounded-bl-full flex flex-col items-center justify-center p-4 cursor-pointer relative group">
+                                <span class="text-3xl sm:text-4xl font-black">S</span>
+                                <span class="text-xs font-extrabold uppercase tracking-wider">Shared Media</span>
+                                <i class="fa-solid fa-hashtag text-xl mt-1 group-hover:scale-125 transition-transform"></i>
+                            </div>
+
+                            <!-- Slice Owned -->
+                            <div onclick="selectSlice('owned')" id="slice-owned" class="pizza-slice w-1/2 h-1/2 bg-emerald-500 text-white border-2 border-black rounded-br-full flex flex-col items-center justify-center p-4 cursor-pointer relative group">
+                                <span class="text-3xl sm:text-4xl font-black">O</span>
+                                <span class="text-xs font-extrabold uppercase tracking-wider">Owned Media</span>
+                                <i class="fa-solid fa-globe text-xl mt-1 group-hover:scale-125 transition-transform"></i>
+                            </div>
+
+                        </div>
+                        <!-- Center Pizza Badge -->
+                        <div class="absolute inset-0 m-auto w-24 h-24 bg-white border-4 border-black rounded-full pop-shadow flex items-center justify-center pointer-events-none">
+                            <span class="font-black text-xs text-center text-slate-900 leading-tight">PESO<br><span class="text-[#E31837]">MODEL</span></span>
+                        </div>
+                    </div>
+                    <p class="text-xs font-extrabold text-slate-500 uppercase tracking-widest mt-6">👉 Nhấp vào từng miếng bánh để chọn kênh PESO</p>
+                </div>
+
+                <!-- Right: Dynamic Analysis Output -->
+                <div class="lg:col-span-6">
+                    <div id="peso-detail-card" class="bg-white p-6 sm:p-8 rounded-3xl border-4 border-black pop-shadow min-h-[420px] flex flex-col justify-between space-y-4">
+                        <div id="peso-content-container">
+                            <!-- JS Populates content here -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= TRANG 3: HIỆU QUẢ & HẠN CHẾ ================= -->
+        <section id="page3" class="page-section hidden space-y-8">
+            <div class="bg-white p-6 rounded-3xl border-4 border-black pop-shadow space-y-2">
+                <span class="bg-yellow-400 text-black text-xs font-black px-3 py-1 rounded-full uppercase border border-black">Trang 3</span>
+                <h2 class="text-3xl font-black text-slate-900 uppercase font-heading">Đánh Giá Hiệu Quả & Hạn Chế Chiến Dịch</h2>
+                <p class="text-slate-600 font-medium">Kết quả đo lường thực tế và 4 hạn chế lớn (Bấm trực tiếp vào từng Hộp Pizza bên dưới để lật nắp mở 180 độ xem nội dung).</p>
+            </div>
+
+            <!-- Campaign Results Summary -->
+            <div class="space-y-4">
+                <h3 class="font-black text-2xl text-[#006491] uppercase flex items-center gap-2 font-heading">
+                    <i class="fa-solid fa-chart-line text-[#E31837]"></i> Kết Quả Ấn Tượng Của Chiến Dịch
+                </h3>
+
+                <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                    <div class="bg-white p-5 rounded-2xl border-3 border-black pop-shadow text-center space-y-2">
+                        <img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=300&q=80" alt="Social Media Reach" class="w-full h-24 object-cover rounded-xl border border-black">
+                        <div class="text-3xl font-black text-[#E31837]">35,000+</div>
+                        <p class="text-xs font-bold text-slate-700">Đề cập tự nhiên trong tuần đầu tiên trên mạng xã hội.</p>
+                    </div>
+
+                    <div class="bg-white p-5 rounded-2xl border-3 border-black pop-shadow text-center space-y-2">
+                        <img src="https://images.unsplash.com/photo-1579684385127-1ef15d508118?auto=format&fit=crop&w=300&q=80" alt="Website Nominate" class="w-full h-24 object-cover rounded-xl border border-black">
+                        <div class="text-3xl font-black text-[#006491]">137,000+</div>
+                        <p class="text-xs font-bold text-slate-700">Đề cử lấp đường gửi về từ 15,275 mã zip khắp nước Mỹ.</p>
+                    </div>
+
+                    <div class="bg-white p-5 rounded-2xl border-3 border-black pop-shadow text-center space-y-2">
+                        <img src="https://images.unsplash.com/photo-1515165562839-978bbcf18277?auto=format&fit=crop&w=300&q=80" alt="Potholes repaired" class="w-full h-24 object-cover rounded-xl border border-black">
+                        <div class="text-3xl font-black text-amber-500">200+ Ổ Gà</div>
+                        <p class="text-xs font-bold text-slate-700">Được trực tiếp vá phẳng với dấu ấn logo Domino's.</p>
+                    </div>
+
+                    <div class="bg-yellow-300 p-5 rounded-2xl border-3 border-black pop-shadow text-center space-y-2">
+                        <div class="h-24 bg-yellow-400 rounded-xl border border-black flex items-center justify-center text-4xl">
+                            🏆
+                        </div>
+                        <div class="text-xl font-black text-black">Cannes Lion Gold</div>
+                        <p class="text-xs font-bold text-slate-900">Giải Vàng Cannes Lions danh giá ở hạng mục Brand Experience.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 3D Pizza Boxes Flip Pitfalls -->
+            <div class="space-y-4 pt-4">
+                <h3 class="font-black text-2xl text-[#E31837] uppercase flex items-center gap-2 font-heading">
+                    <i class="fa-solid fa-box-open"></i> Hạn Chế Cần Rút Kinh Nghiệm (Click vào Hộp Pizza để lật nắp 3D)
+                </h3>
+
+                <div class="grid md:grid-cols-2 gap-6">
+                    
+                    <!-- Box 1 -->
+                    <div onclick="toggleBox(this)" class="box-container cursor-pointer h-72 w-full">
+                        <div class="box-card relative w-full h-full rounded-3xl border-4 border-black pop-shadow preserve-3d">
+                            <!-- Front -->
+                            <div class="box-front absolute inset-0 bg-[#E31837] text-white p-6 rounded-2xl flex flex-col justify-between items-center text-center backface-hidden">
+                                <div class="w-full flex justify-between items-center">
+                                    <span class="bg-black text-white text-xs font-bold px-3 py-1 rounded-lg border border-white">HỘP PIZZA 01</span>
+                                    <i class="fa-solid fa-hand-pointer text-yellow-300 animate-bounce"></i>
+                                </div>
+                                <div class="space-y-2">
+                                    <div class="text-5xl">📦🍕</div>
+                                    <h4 class="font-black text-xl leading-snug font-heading">Ngân sách giới hạn và quy mô nhỏ so với thực tế</h4>
+                                </div>
+                                <span class="text-xs font-black text-yellow-300 uppercase bg-black/40 px-3 py-1.5 rounded-full">Bấm để lật mở nắp hộp</span>
+                            </div>
+                            <!-- Back -->
+                            <div class="box-back absolute inset-0 bg-white text-slate-900 p-6 rounded-2xl flex flex-col justify-between border-2 border-black rotate-y-180 backface-hidden">
+                                <div class="space-y-2">
+                                    <span class="text-xs font-bold text-[#E31837] uppercase"><i class="fa-solid fa-triangle-exclamation"></i> Chi tiết hạn chế 01</span>
+                                    <h5 class="font-black text-base text-[#006491] font-heading">Ngân sách $5,000 / thành phố</h5>
+                                    <p class="text-xs text-slate-700 leading-relaxed font-medium">
+                                        Số tiền tài trợ cho mỗi thành phố chỉ khoảng 5,000 USD – chỉ đủ lấp vài chục ổ gà mang tính biểu tượng để làm hình ảnh truyền thông. Mức này không đủ giải quyết cuộc khủng hoảng hạ tầng đường xá hàng tỷ USD tại Mỹ.
+                                    </p>
+                                </div>
+                                <div class="text-right">
+                                    <span class="text-[10px] font-bold text-slate-400 uppercase">Lật lại nắp ↑</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Box 2 -->
+                    <div onclick="toggleBox(this)" class="box-container cursor-pointer h-72 w-full">
+                        <div class="box-card relative w-full h-full rounded-3xl border-4 border-black pop-shadow preserve-3d">
+                            <!-- Front -->
+                            <div class="box-front absolute inset-0 bg-[#006491] text-white p-6 rounded-2xl flex flex-col justify-between items-center text-center backface-hidden">
+                                <div class="w-full flex justify-between items-center">
+                                    <span class="bg-black text-white text-xs font-bold px-3 py-1 rounded-lg border border-white">HỘP PIZZA 02</span>
+                                    <i class="fa-solid fa-hand-pointer text-yellow-300 animate-bounce"></i>
+                                </div>
+                                <div class="space-y-2">
+                                    <div class="text-5xl">🏛️📜</div>
+                                    <h4 class="font-black text-xl leading-snug font-heading">Thủ tục hành chính phức tạp với chính quyền địa phương</h4>
+                                </div>
+                                <span class="text-xs font-black text-yellow-300 uppercase bg-black/40 px-3 py-1.5 rounded-full">Bấm để lật mở nắp hộp</span>
+                            </div>
+                            <!-- Back -->
+                            <div class="box-back absolute inset-0 bg-white text-slate-900 p-6 rounded-2xl flex flex-col justify-between border-2 border-black rotate-y-180 backface-hidden">
+                                <div class="space-y-2">
+                                    <span class="text-xs font-bold text-[#006491] uppercase"><i class="fa-solid fa-file-contract"></i> Chi tiết hạn chế 02</span>
+                                    <h5 class="font-black text-base text-[#006491] font-heading">Rào cản quy định đô thị</h5>
+                                    <p class="text-xs text-slate-700 leading-relaxed font-medium">
+                                        Domino's không thể tự ý thi công trên tài sản công. Việc thương lượng giấy phép tài trợ với từng chính quyền thành phố tốn nhiều thời gian. Một số nơi từ chối vì không muốn doanh nghiệp can thiệp vào công việc của chính phủ.
+                                    </p>
+                                </div>
+                                <div class="text-right">
+                                    <span class="text-[10px] font-bold text-slate-400 uppercase">Lật lại nắp ↑</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Box 3 -->
+                    <div onclick="toggleBox(this)" class="box-container cursor-pointer h-72 w-full">
+                        <div class="box-card relative w-full h-full rounded-3xl border-4 border-black pop-shadow preserve-3d">
+                            <!-- Front -->
+                            <div class="box-front absolute inset-0 bg-amber-500 text-white p-6 rounded-2xl flex flex-col justify-between items-center text-center backface-hidden">
+                                <div class="w-full flex justify-between items-center">
+                                    <span class="bg-black text-white text-xs font-bold px-3 py-1 rounded-lg border border-white">HỘP PIZZA 03</span>
+                                    <i class="fa-solid fa-hand-pointer text-black animate-bounce"></i>
+                                </div>
+                                <div class="space-y-2">
+                                    <div class="text-5xl">🗞️🗣️</div>
+                                    <h4 class="font-black text-xl leading-snug font-heading">Tranh cãi dư luận về bản chất PR trục lợi</h4>
+                                </div>
+                                <span class="text-xs font-black text-black uppercase bg-black/20 px-3 py-1.5 rounded-full">Bấm để lật mở nắp hộp</span>
+                            </div>
+                            <!-- Back -->
+                            <div class="box-back absolute inset-0 bg-white text-slate-900 p-6 rounded-2xl flex flex-col justify-between border-2 border-black rotate-y-180 backface-hidden">
+                                <div class="space-y-2">
+                                    <span class="text-xs font-bold text-amber-600 uppercase"><i class="fa-solid fa-scale-balanced"></i> Chi tiết hạn chế 03</span>
+                                    <h5 class="font-black text-base text-[#006491] font-heading">Chỉ trích từ báo chí chí công luận</h5>
+                                    <p class="text-xs text-slate-700 leading-relaxed font-medium">
+                                        Một số tờ báo lớn như The Guardian chỉ trích hãng "trục lợi" dựa trên sự yếu kém của hạ tầng công cộng. Việc in logo thương hiệu lên mặt đường giao thông bị coi là hình thức thương mại hóa không gian công cộng quá đà.
+                                    </p>
+                                </div>
+                                <div class="text-right">
+                                    <span class="text-[10px] font-bold text-slate-400 uppercase">Lật lại nắp ↑</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Box 4 -->
+                    <div onclick="toggleBox(this)" class="box-container cursor-pointer h-72 w-full">
+                        <div class="box-card relative w-full h-full rounded-3xl border-4 border-black pop-shadow preserve-3d">
+                            <!-- Front -->
+                            <div class="box-front absolute inset-0 bg-emerald-600 text-white p-6 rounded-2xl flex flex-col justify-between items-center text-center backface-hidden">
+                                <div class="w-full flex justify-between items-center">
+                                    <span class="bg-black text-white text-xs font-bold px-3 py-1 rounded-lg border border-white">HỘP PIZZA 04</span>
+                                    <i class="fa-solid fa-hand-pointer text-yellow-300 animate-bounce"></i>
+                                </div>
+                                <div class="space-y-2">
+                                    <div class="text-5xl">⚠️🛠️</div>
+                                    <h4 class="font-black text-xl leading-snug font-heading">Rủi ro pháp lý & chất lượng thi công không đều</h4>
+                                </div>
+                                <span class="text-xs font-black text-yellow-300 uppercase bg-black/40 px-3 py-1.5 rounded-full">Bấm để lật mở nắp hộp</span>
+                            </div>
+                            <!-- Back -->
+                            <div class="box-back absolute inset-0 bg-white text-slate-900 p-6 rounded-2xl flex flex-col justify-between border-2 border-black rotate-y-180 backface-hidden">
+                                <div class="space-y-2">
+                                    <span class="text-xs font-bold text-emerald-600 uppercase"><i class="fa-solid fa-shield-halved"></i> Chi tiết hạn chế 04</span>
+                                    <h5 class="font-black text-base text-[#006491] font-heading">Trách nhiệm pháp lý kéo dài</h5>
+                                    <p class="text-xs text-slate-700 leading-relaxed font-medium">
+                                        Do đội ngũ thi công vẫn là nhà thầu địa phương, chất lượng các vết vá nhựa đường không đồng đều. Nếu vết vá sụt lở gây tai nạn giao thông sau đó, logo Domino's in ngay cạnh có nguy cơ bị kéo vào vụ kiện trách nhiệm pháp lý.
+                                    </p>
+                                </div>
+                                <div class="text-right">
+                                    <span class="text-[10px] font-bold text-slate-400 uppercase">Lật lại nắp ↑</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= TRANG 4: BÀI HỌC KINH NGHIỆM ================= -->
+        <section id="page4" class="page-section hidden space-y-8">
+            <div class="bg-white p-6 rounded-3xl border-4 border-black pop-shadow space-y-2">
+                <span class="bg-[#006491] text-white text-xs font-black px-3 py-1 rounded-full uppercase border border-black">Trang 4</span>
+                <h2 class="text-3xl font-black text-[#006491] uppercase font-heading">Bài Học Kinh Nghiệm & Đề Xuất Strategic</h2>
+                <p class="text-slate-600 font-medium">Tổng kết 3 nhóm bài học giá trị rút ra từ chiến dịch Paving for Pizza.</p>
+            </div>
+
+            <div class="grid lg:grid-cols-3 gap-6">
+                <!-- Factors -->
+                <div class="bg-white p-6 rounded-3xl border-4 border-black pop-shadow space-y-4 border-t-8 border-t-emerald-500">
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 bg-emerald-100 text-emerald-600 rounded-xl border-2 border-black flex items-center justify-center text-xl font-black">
+                            <i class="fa-solid fa-circle-check"></i>
+                        </div>
+                        <h3 class="font-black text-xl text-slate-900 uppercase font-heading">Yếu Tố Thành Công</h3>
+                    </div>
+                    <ul class="space-y-3 text-xs sm:text-sm font-medium text-slate-700">
+                        <li class="bg-slate-50 p-3.5 rounded-xl border border-slate-300 space-y-1">
+                            <strong class="text-slate-900 font-bold block text-sm">1. Giải quyết vấn đề thực tế:</strong>
+                            <span>Biến hoạt động PR thành hành động CSR có ích cho cộng đồng thay vì chỉ giăng biển quảng cáo đơn thuần.</span>
+                        </li>
+                        <li class="bg-slate-50 p-3.5 rounded-xl border border-slate-300 space-y-1">
+                            <strong class="text-slate-900 font-bold block text-sm">2. Tạo động lực tương tác (Crowdsourcing):</strong>
+                            <span>Trao quyền cho cư dân tự bầu chọn con đường xấu nhất nơi họ sống, kích thích tranh luận bùng nổ.</span>
+                        </li>
+                        <li class="bg-slate-50 p-3.5 rounded-xl border border-slate-300 space-y-1">
+                            <strong class="text-slate-900 font-bold block text-sm">3. Lồng ghép thông điệp hóm hỉnh:</strong>
+                            <span>Gợi mở lý do "sửa đường vì bánh pizza", tạo cảm giác gần gũi, vui vẻ và dễ chia sẻ trên mạng xã hội.</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Improvements -->
+                <div class="bg-white p-6 rounded-3xl border-4 border-black pop-shadow space-y-4 border-t-8 border-t-[#E31837]">
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 bg-red-100 text-[#E31837] rounded-xl border-2 border-black flex items-center justify-center text-xl font-black">
+                            <i class="fa-solid fa-circle-exclamation"></i>
+                        </div>
+                        <h3 class="font-black text-xl text-slate-900 uppercase font-heading">Điểm Cần Cải Thiện</h3>
+                    </div>
+                    <ul class="space-y-3 text-xs sm:text-sm font-medium text-slate-700">
+                        <li class="bg-slate-50 p-3.5 rounded-xl border border-slate-300 space-y-1">
+                            <strong class="text-slate-900 font-bold block text-sm">1. Quy trình làm việc với chính quyền:</strong>
+                            <span>Cần chuẩn bị sẵn khung pháp lý chuẩn hóa để ký kết với chính quyền địa phương nhanh chóng hơn.</span>
+                        </li>
+                        <li class="bg-slate-50 p-3.5 rounded-xl border border-slate-300 space-y-1">
+                            <strong class="text-slate-900 font-bold block text-sm">2. Quản lý kỳ vọng công chúng:</strong>
+                            <span>Cần làm rõ từ đầu rằng đây là khoản tài trợ bổ sung biểu tượng, tránh tạo hiểu nhầm là hãng sẽ vá toàn bộ con đường.</span>
+                        </li>
+                        <li class="bg-slate-50 p-3.5 rounded-xl border border-slate-300 space-y-1">
+                            <strong class="text-slate-900 font-bold block text-sm">3. Đo lường doanh số bán hàng:</strong>
+                            <span>Bổ sung mã giảm giá (voucher) riêng cho cư dân tại khu vực được vá đường để đo lường tỷ lệ chuyển đổi đơn hàng trực tiếp.</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Strategic Recommendations -->
+                <div class="bg-white p-6 rounded-3xl border-4 border-black pop-shadow space-y-4 border-t-8 border-t-[#006491]">
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 bg-sky-100 text-[#006491] rounded-xl border-2 border-black flex items-center justify-center text-xl font-black">
+                            <i class="fa-solid fa-compass"></i>
+                        </div>
+                        <h3 class="font-black text-xl text-slate-900 uppercase font-heading">Đề Xuất Cho Tương Lai</h3>
+                    </div>
+                    <ul class="space-y-3 text-xs sm:text-sm font-medium text-slate-700">
+                        <li class="bg-slate-50 p-3.5 rounded-xl border border-slate-300 space-y-1">
+                            <strong class="text-slate-900 font-bold block text-sm">1. Ứng dụng Công nghệ AR & AI:</strong>
+                            <span>Tích hợp tính năng tự động phát hiện ổ gà bằng camera điện thoại trên ứng dụng đặt bánh Domino's để tích điểm thưởng.</span>
+                        </li>
+                        <li class="bg-slate-50 p-3.5 rounded-xl border border-slate-300 space-y-1">
+                            <strong class="text-slate-900 font-bold block text-sm">2. Bản địa hóa tại Châu Á / Việt Nam:</strong>
+                            <span>Áp dụng mô hình "Paving for Pizza" giải quyết bài toán ngập nước hoặc ổ gà cho đội ngũ giao xe máy tại các đô thị Đông Nam Á.</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= TRANG 5: ĐỀ XUẤT ĐƯỜNG VN & GAME ================= -->
+        <section id="page5" class="page-section hidden space-y-8">
+            
+            <!-- SECTION 1: "POTHOLE HERO" ARCADE RUNNER MINI-GAME -->
+            <div class="bg-slate-900 p-4 sm:p-6 rounded-3xl border-4 border-black pop-shadow-lg text-white max-w-5xl mx-auto space-y-5">
+                <!-- Game Header Banner -->
+                <div class="flex flex-wrap items-center justify-between bg-slate-800 p-4 sm:p-5 rounded-2xl border-2 border-slate-700 gap-4">
+                    <div class="flex items-center gap-3 sm:gap-6">
+                        <div>
+                            <span class="text-[10px] sm:text-xs text-slate-400 font-extrabold uppercase tracking-wider block">Điểm PR Campaign</span>
+                            <span id="game-score" class="text-2xl sm:text-3xl font-black text-yellow-400">0</span>
+                        </div>
+                        <div class="border-r-2 border-slate-700 h-10"></div>
+                        <div>
+                            <span class="text-[10px] sm:text-xs text-slate-400 font-extrabold uppercase tracking-wider block">Độ Nguyên Vẹn Bánh</span>
+                            <div class="flex items-center gap-2">
+                                <div class="w-24 sm:w-32 bg-slate-700 rounded-full h-4 border border-black overflow-hidden p-0.5">
+                                    <div id="pizza-health-bar" class="bg-emerald-500 h-full rounded-full transition-all duration-300" style="width: 100%;"></div>
+                                </div>
+                                <span id="pizza-health" class="text-xs sm:text-sm font-black text-emerald-400">100%</span>
+                            </div>
+                        </div>
+                        <div class="hidden sm:block border-r-2 border-slate-700 h-10"></div>
+                        <div class="hidden sm:block">
+                            <span class="text-[10px] sm:text-xs text-slate-400 font-extrabold uppercase tracking-wider block">PESO Power-Up</span>
+                            <span id="powerup-status" class="text-xs font-black text-slate-300">Không có</span>
+                        </div>
+                    </div>
+
+                    <div class="flex gap-2">
+                        <button onclick="startArcadeGame()" class="bg-[#E31837] hover:bg-red-600 active:scale-95 text-white font-black px-5 py-2.5 rounded-xl border-2 border-black pop-shadow-sm transition-all text-xs sm:text-sm uppercase tracking-wide flex items-center gap-2">
+                            <i class="fa-solid fa-play"></i> Bắt đầu Chơi Game
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Game Canvas Screen & Overlay -->
+                <div class="relative w-full overflow-hidden rounded-2xl border-4 border-black bg-slate-800 flex justify-center items-center min-h-[420px]">
+                    <canvas id="gameCanvas" class="bg-slate-800 w-full max-w-full block shadow-2xl"></canvas>
+                    
+                    <!-- Game Overlay Modal -->
+                    <div id="game-overlay" class="absolute inset-0 bg-slate-950/90 flex flex-col items-center justify-center p-6 text-center space-y-4 z-20">
+                        <div class="inline-block bg-yellow-400 text-black px-4 py-1 rounded-full text-xs font-black uppercase tracking-wider border-2 border-black">
+                            Arcade Mini-Game Nâng Cấp
+                        </div>
+                        <h3 class="text-3xl sm:text-4xl font-black text-yellow-300 uppercase font-heading tracking-tight">
+                            Pothole Hero <br><span class="text-white text-xl sm:text-2xl">Bánh Mịn Đến Tay</span>
+                        </h3>
+                        
+                        <!-- Power Up Tutorial Pills -->
+                        <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 w-full max-w-lg text-left text-xs font-medium my-2">
+                            <div class="bg-red-900/80 border border-red-500 p-2 rounded-xl">
+                                <span class="font-black text-red-400 text-sm block">P - Paid Media</span>
+                                <span class="text-[10px] text-slate-200">Xe Lu bọc thép cán phẳng mọi ổ gà!</span>
+                            </div>
+                            <div class="bg-sky-900/80 border border-sky-500 p-2 rounded-xl">
+                                <span class="font-black text-sky-400 text-sm block">E - Earned Media</span>
+                                <span class="text-[10px] text-slate-200">Ống kính báo chí x2 Điểm PR!</span>
+                            </div>
+                            <div class="bg-amber-900/80 border border-amber-500 p-2 rounded-xl">
+                                <span class="font-black text-amber-400 text-sm block">S - Shared Media</span>
+                                <span class="text-[10px] text-slate-200">Làn sóng Like/Share hồi 20% bánh!</span>
+                            </div>
+                            <div class="bg-emerald-900/80 border border-emerald-500 p-2 rounded-xl">
+                                <span class="font-black text-emerald-400 text-sm block">O - Owned Media</span>
+                                <span class="text-[10px] text-slate-200">Khiên bảo vệ Pizza chống xóc!</span>
+                            </div>
+                        </div>
+
+                        <p class="text-xs sm:text-sm text-slate-300 max-w-md">
+                            Dùng phím <span class="text-yellow-400 font-bold">Mũi tên Trái/Phải</span> để lạng lách. Bấm phím <span class="text-red-400 font-bold">SPACE (hoặc nút Vá Đường)</span> khi đến gần ổ gà để đóng dấu <strong class="text-yellow-300">"OH YES WE DID"</strong>!
+                        </p>
+
+                        <button onclick="startArcadeGame()" class="bg-[#006491] hover:bg-sky-600 active:scale-95 text-white font-black px-8 py-3.5 rounded-2xl border-2 border-black pop-shadow uppercase text-base tracking-wider transition-all">
+                            🚀 Xuất Phát Giao Bánh
+                        </button>
+                    </div>
+                </div>
+
+                <!-- On-screen Touch Controls -->
+                <div class="flex flex-wrap justify-between items-center gap-3 pt-1">
+                    <div class="flex gap-2 w-full sm:w-auto">
+                        <button onclick="movePlayer(-1)" class="flex-1 sm:flex-none bg-slate-800 active:bg-slate-700 text-white font-black px-6 py-3 rounded-xl border-2 border-slate-600 text-sm uppercase">
+                            👈 Trái
+                        </button>
+                        <button onclick="movePlayer(1)" class="flex-1 sm:flex-none bg-slate-800 active:bg-slate-700 text-white font-black px-6 py-3 rounded-xl border-2 border-slate-600 text-sm uppercase">
+                            Phải 👉
+                        </button>
+                    </div>
+
+                    <button onclick="triggerQuickPave()" class="w-full sm:w-auto bg-amber-500 hover:bg-amber-400 active:scale-95 text-black font-black px-8 py-3 rounded-xl border-2 border-black pop-shadow-sm text-sm uppercase tracking-wide">
+                        🛠️ Vá Ổ Gà Siêu Tốc (Phím Space)
+                    </button>
+                </div>
+            </div>
+
+            <!-- SECTION 2: VIETNAM CAMPAIGN LOCALIZATION MODULE -->
+            <div class="bg-white p-6 sm:p-8 rounded-3xl border-4 border-black pop-shadow space-y-6">
+                <div class="flex flex-wrap items-center justify-between gap-4 border-b-4 border-black pb-4">
+                    <div>
+                        <span class="bg-red-600 text-white text-xs font-black px-3 py-1 rounded-full uppercase border border-black">
+                            🇻🇳 Bản Địa Hóa Việt Nam
+                        </span>
+                        <h2 class="text-2xl sm:text-3xl font-black text-slate-900 uppercase mt-1 font-heading">
+                            Nếu "Paving For Pizza" Xuất Hiện Tại Việt Nam?
+                        </h2>
+                        <p class="text-xs sm:text-sm text-slate-600 font-medium">Hãy đề xuất con đường nhiều ổ gà / xuống cấp tại địa phương bạn để Domino's Việt Nam tài trợ sửa chữa!</p>
+                    </div>
+                    <div class="text-4xl">🛵🍕🇻🇳</div>
+                </div>
+
+                <!-- Form Selection Dropdown for VN Cities -->
+                <form id="vn-paving-form" onsubmit="submitVnRoadProposal(event)" class="grid md:grid-cols-12 gap-4 bg-slate-50 p-4 sm:p-6 rounded-2xl border-3 border-black">
+                    <div class="md:col-span-4 space-y-1">
+                        <label class="block text-xs font-black uppercase text-slate-700">1. Chọn Tỉnh / Thành Phố</label>
+                        <select id="vn-province" required class="w-full bg-white border-2 border-black rounded-xl p-3 text-sm font-bold text-slate-900 focus:ring-2 focus:ring-[#E31837] outline-none">
+                            <option value="">-- Chọn Tỉnh / Thành --</option>
+                            <option value="Hà Nội">Hà Nội</option>
+                            <option value="TP. Hồ Chí Minh">TP. Hồ Chí Minh</option>
+                            <option value="Đà Nẵng">Đà Nẵng</option>
+                            <option value="Cần Thơ">Cần Thơ</option>
+                            <option value="Hải Phòng">Hải Phòng</option>
+                            <option value="Bình Dương">Bình Dương</option>
+                            <option value="Đồng Nai">Đồng Nai</option>
+                            <option value="Quảng Ninh">Quảng Ninh</option>
+                            <option value="Khánh Hòa">Khánh Hòa</option>
+                            <option value="Tỉnh/Thành khác">Tỉnh/Thành khác</option>
+                        </select>
+                    </div>
+
+                    <div class="md:col-span-5 space-y-1">
+                        <label class="block text-xs font-black uppercase text-slate-700">2. Tên Con Đường / Đoạn Đường Cần Vá</label>
+                        <input type="text" id="vn-street" required placeholder="Ví dụ: Đường Nguyễn Trãi, Đoạn ngã tư..." class="w-full bg-white border-2 border-black rounded-xl p-3 text-sm font-bold text-slate-900 focus:ring-2 focus:ring-[#E31837] outline-none">
+                    </div>
+
+                    <div class="md:col-span-3 flex items-end">
+                        <button type="submit" class="w-full bg-[#E31837] hover:bg-red-600 text-white font-black p-3 rounded-xl border-2 border-black pop-shadow-sm uppercase text-sm transition-transform active:scale-95">
+                            Gửi Đề Xuất Vá Đường 🚀
+                        </button>
+                    </div>
+                </form>
+
+                <!-- Live Feed of Proposals -->
+                <div class="space-y-3">
+                    <h3 class="font-black text-lg text-[#006491] uppercase flex items-center gap-2 font-heading">
+                        <i class="fa-solid fa-list-check text-[#E31837]"></i> Danh Sách Đường Được Đề Xuất Bình Chọn
+                    </h3>
+                    <div id="proposals-feed" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                        <!-- Seed Item 1 -->
+                        <div class="bg-white p-4 rounded-2xl border-2 border-black pop-shadow-sm space-y-2">
+                            <div class="flex justify-between items-center">
+                                <span class="bg-red-100 text-[#E31837] text-xs font-black px-2.5 py-0.5 rounded-md border border-black">TP. Hồ Chí Minh</span>
+                                <span class="text-xs font-bold text-slate-400">Vừa xong</span>
+                            </div>
+                            <h4 class="font-black text-base text-slate-900">${street => ""}Đường Kha Vạn Cân (Thủ Đức)</h4>
+                            <p class="text-xs text-slate-600 font-medium">Đoạn gần đường xe lửa ổ gà sâu làm xóc vỡ pizza khi shipper đi qua.</p>
+                            <div class="flex justify-between items-center pt-2 border-t border-slate-100">
+                                <button onclick="upvoteProposal(this)" class="bg-yellow-300 hover:bg-yellow-400 text-slate-900 text-xs font-black px-3 py-1 rounded-lg border border-black">
+                                    👍 Bình chọn (142)
+                                </button>
+                                <span class="text-[10px] font-bold text-emerald-600 uppercase">Đã duyệt khảo sát</span>
+                            </div>
+                        </div>
+
+                        <!-- Seed Item 2 -->
+                        <div class="bg-white p-4 rounded-2xl border-2 border-black pop-shadow-sm space-y-2">
+                            <div class="flex justify-between items-center">
+                                <span class="bg-sky-100 text-[#006491] text-xs font-black px-2.5 py-0.5 rounded-md border border-black">Hà Nội</span>
+                                <span class="text-xs font-bold text-slate-400">10 phút trước</span>
+                            </div>
+                            <h4 class="font-black text-base text-slate-900">Đường Lĩnh Nam (Hoàng Mai)</h4>
+                            <p class="text-xs text-slate-600 font-medium">Đường hẹp nhiều vệt lồi lõm cần Domino's tài trợ dải nhựa đường bãi đỗ.</p>
+                            <div class="flex justify-between items-center pt-2 border-t border-slate-100">
+                                <button onclick="upvoteProposal(this)" class="bg-yellow-300 hover:bg-yellow-400 text-slate-900 text-xs font-black px-3 py-1 rounded-lg border border-black">
+                                    👍 Bình chọn (98)
+                                </button>
+                                <span class="text-[10px] font-bold text-amber-600 uppercase">Đang chờ duyệt</span>
+                            </div>
+                        </div>
+
+                        <!-- Seed Item 3 -->
+                        <div class="bg-white p-4 rounded-2xl border-2 border-black pop-shadow-sm space-y-2">
+                            <div class="flex justify-between items-center">
+                                <span class="bg-emerald-100 text-emerald-700 text-xs font-black px-2.5 py-0.5 rounded-md border border-black">Đà Nẵng</span>
+                                <span class="text-xs font-bold text-slate-400">1 giờ trước</span>
+                            </div>
+                            <h4 class="font-black text-base text-slate-900">Đường Điện Biên Phủ</h4>
+                            <p class="text-xs text-slate-600 font-medium">Cần lấp ổ gà nhỏ chỗ đoạn rẽ hầm chui để shipper giao bánh 5 sao.</p>
+                            <div class="flex justify-between items-center pt-2 border-t border-slate-100">
+                                <button onclick="upvoteProposal(this)" class="bg-yellow-300 hover:bg-yellow-400 text-slate-900 text-xs font-black px-3 py-1 rounded-lg border border-black">
+                                    👍 Bình chọn (215)
+                                </button>
+                                <span class="text-[10px] font-bold text-emerald-600 uppercase">Đã lên lịch vá</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="bg-slate-900 text-white border-t-4 border-black mt-12 py-8 px-4 text-center space-y-3">
+        <div class="max-w-7xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-4 text-xs sm:text-sm font-medium text-slate-400">
+            <p>© 2026 Domino's Paving For Pizza Interactive Case Study Zine.</p>
+            <div class="flex gap-4">
+                <a href="#home" onclick="showPage('home')" class="hover:text-yellow-400 transition-colors">Về đầu trang ↑</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        /* PAGE NAVIGATION MANAGEMENT */
+        function showPage(pageId) {
+            document.querySelectorAll('.page-section').forEach(section => {
+                section.classList.add('hidden');
+            });
+            document.getElementById(pageId).classList.remove('hidden');
+            
+            // Highlight Navigation Buttons
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                btn.classList.remove('bg-yellow-300', 'font-black');
+            });
+            const activeBtn = document.getElementById(`nav-${pageId}`);
+            if (activeBtn) {
+                activeBtn.classList.add('bg-yellow-300', 'font-black');
+            }
+
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+
+            if (pageId === 'page5') {
+                initGameCanvas();
+            }
+        }
+
+        /* PAGE 2: PESO PIZZA SLICE SELECTION DATA */
+        const pesoData = {
+            paid: {
+                title: "1. P – Paid Media (Truyền thông Trả tiền)",
+                color: "#E31837",
+                badge: "Kích hoạt nhận thức",
+                icon: "fa-rectangle-ad",
+                desc: "Paid Media đóng vai trò mồi lửa ban đầu để kích thích nhận thức về chiến dịch và điều hướng công chúng về website chính thức.",
+                details: [
+                    "<strong>Quảng cáo TVC truyền hình:</strong> Tung ra các đoạn phim ngắn hóm hỉnh mô phỏng 'Pizza Cam' ghi lại cảnh chiếc bánh bị méo mó xô lệch khi xe chạy qua đường ổ gà.",
+                    "<strong>Digital Video Ads & Social Ads:</strong> Chạy video quảng cáo ngắn trên Facebook, Youtube và Instagram hiển thị cảnh xe lu dán logo Domino's thực hiện sửa đường.",
+                    "<strong>Quảng cáo tài trợ địa phương:</strong> Mua bài PR thông báo việc Domino's cấp kinh phí sửa chữa cho chính quyền các thành phố đầu tiên."
+                ]
+            },
+            earned: {
+                title: "2. E – Earned Media (Truyền thông Lan tỏa)",
+                color: "#006491",
+                badge: "Trụ cột thành công nhất",
+                icon: "fa-newspaper",
+                desc: "Trụ cột thành công lớn nhất, biến ngân sách quảng cáo ban đầu thành làn sóng đưa tin tự nhiên từ các hãng thông tấn lớn nhất hành tinh.",
+                details: [
+                    "<strong>Báo chí toàn cầu đưa tin tự nhiên:</strong> BBC, CNN, Fox News, USA Today, Washington Post... đồng loạt giật tiêu đề về câu chuyện độc lạ: Một thương hiệu Pizza đi sửa đường giúp chính phủ.",
+                    "<strong>Lên sóng các Talk Show đình đám:</strong> Các host truyền hình lừng danh như Jimmy Kimmel, Stephen Colbert đưa chiến dịch vào tiểu phẩm hài hước, mang lại hơn 1 tỷ lượt hiển thị truyền thông hoàn toàn miễn phí.",
+                    "<strong>Thị trưởng các thành phố lên tiếng:</strong> Chính quyền địa phương công khai phát biểu cảm ơn Domino's trên đài phát thanh và mạng xã hội."
+                ]
+            },
+            shared: {
+                title: "3. S – Shared Media (Truyền thông Chia sẻ)",
+                color: "#f59e0b",
+                badge: "Lan truyền cộng đồng",
+                icon: "fa-hashtag",
+                desc: "Kênh giúp lan tỏa thông điệp theo chiều ngang, biến cư dân địa phương thành đại sứ truyền thông tự nguyện.",
+                details: [
+                    "<strong>Hashtag #PavingForPizza gây bão:</strong> Người dân tự chụp ảnh các mảng đường mới vá có logo Domino's đăng tải lên Twitter, Reddit và Instagram.",
+                    "<strong>Trào lưu tag chính quyền địa phương:</strong> Cư dân liên tục tag tài khoản Domino's và chính quyền địa phương nơi họ sống để 'đòi' được tài trợ lấp ổ gà.",
+                    "<strong>Meme hài hước từ cư dân mạng:</strong> Hàng ngàn bức ảnh chế so sánh tiến độ làm việc thần tốc của Domino's với cơ quan giao thông đô thị."
+                ]
+            },
+            owned: {
+                title: "4. O – Owned Media (Truyền thông Sở hữu)",
+                color: "#10b981",
+                badge: "Hiện thực hóa cam kết",
+                icon: "fa-globe",
+                desc: "Nơi tiếp nhận tương tác, lưu trữ dữ liệu đề xuất và biến sự chú ý thành hành động tương tác trực tiếp.",
+                details: [
+                    "<strong>Website PavingForPizza.com:</strong> Trang web cho phép người dân gõ mã zip để bình chọn con đường xấu nhất, theo dõi tiến độ sửa đường real-time.",
+                    "<strong>Bao bì Hộp Pizza thiết kế riêng:</strong> Hộp bánh giao tới tay khách hàng được in thêm câu chuyện về chiến dịch sửa đường.",
+                    "<strong>Mặt đường dán nhãn thương hiệu:</strong> Vết vá nhựa đường được đóng con dấu sơn chịu nhiệt logo Domino's kèm slogan 'OH YES WE DID'."
+                ]
+            }
+        };
+
+        function selectSlice(type) {
+            const data = pesoData[type];
+            const container = document.getElementById('peso-content-container');
+
+            let detailsList = data.details.map(item => `
+                <li class="bg-slate-50 p-3 rounded-xl border border-slate-200 text-xs sm:text-sm text-slate-700 font-medium">
+                    ${item}
+                </li>
+            `).join('');
+
+            container.innerHTML = `
+                <div class="space-y-4 animate-fadeIn">
+                    <div class="flex justify-between items-center">
+                        <span class="text-xs font-black uppercase px-3 py-1 rounded-full text-white" style="background-color: ${data.color}">
+                            ${data.badge}
+                        </span>
+                        <i class="fa-solid ${data.icon} text-2xl" style="color: ${data.color}"></i>
+                    </div>
+                    <h3 class="font-black text-xl sm:text-2xl text-slate-900 font-heading">${data.title}</h3>
+                    <p class="text-xs sm:text-sm text-slate-600 font-semibold italic">${data.desc}</p>
+                    <hr class="border-slate-200">
+                    <ul class="space-y-2.5 max-h-64 overflow-y-auto pr-1">
+                        ${detailsList}
+                    </ul>
+                </div>
+            `;
+        }
+
+        // Initialize default slice
+        selectSlice('paid');
+
+        /* PAGE 3: 3D BOX FLIP TOGGLE */
+        function toggleBox(element) {
+            element.classList.toggle('open');
+        }
+
+        /* PAGE 5: VIETNAM ROAD PROPOSAL SUBMISSION */
+        function submitVnRoadProposal(event) {
+            event.preventDefault();
+            const province = document.getElementById('vn-province').value;
+            const street = document.getElementById('vn-street').value;
+
+            if (!province || !street) return;
+
+            const feed = document.getElementById('proposals-feed');
+            const newCard = document.createElement('div');
+            newCard.className = "bg-white p-4 rounded-2xl border-2 border-black pop-shadow-sm space-y-2 animate-fadeIn";
+            newCard.innerHTML = `
+                <div class="flex justify-between items-center">
+                    <span class="bg-red-600 text-white text-xs font-black px-2.5 py-0.5 rounded-md border border-black">${province}</span>
+                    <span class="text-xs font-bold text-[#E31837]">Đề xuất mới!</span>
+                </div>
+                <h4 class="font-black text-base text-slate-900">${street}</h4>
+                <p class="text-xs text-slate-600 font-medium">Cần Domino's khảo sát tài trợ dải nhựa vá đường giúp shipper giao bánh an toàn.</p>
+                <div class="flex justify-between items-center pt-2 border-t border-slate-100">
+                    <button onclick="upvoteProposal(this)" class="bg-yellow-300 hover:bg-yellow-400 text-slate-900 text-xs font-black px-3 py-1 rounded-lg border border-black">
+                        👍 Bình chọn (1)
+                    </button>
+                    <span class="text-[10px] font-bold text-amber-600 uppercase">Mới tiếp nhận</span>
+                </div>
+            `;
+
+            feed.prepend(newCard);
+            document.getElementById('vn-paving-form').reset();
+        }
+
+        function upvoteProposal(btn) {
+            let currentVotes = parseInt(btn.innerText.match(/\d+/)[0]);
+            currentVotes++;
+            btn.innerText = `👍 Bình chọn (${currentVotes})`;
+            btn.classList.add('bg-emerald-300');
+        }
+
+        /* PAGE 5: ADVANCED "POTHOLE HERO" ARCADE RUNNER ENGINE */
+        let canvas, ctx;
+        let gameRunning = false;
+        let score = 0;
+        let health = 100;
+        let totalPavedCount = 0;
+        let playerLane = 1;
+        let lanes = [80, 200, 320];
+        let obstacles = [];
+        let powerups = [];
+        let gameLoopId;
+
+        // Active Power-up States
+        let activePowerUp = null; // 'P', 'E', 'S', 'O'
+        let powerUpTimer = 0;
+
+        function initGameCanvas() {
+            canvas = document.getElementById('gameCanvas');
+            ctx = canvas.getContext('2d');
+            canvas.width = 400;
+            canvas.height = 520;
+            drawInitialCanvas();
+        }
+
+        function drawInitialCanvas() {
+            ctx.fillStyle = '#1e293b';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            ctx.fillStyle = '#f59e0b';
+            ctx.font = '700 20px Lexend';
+            ctx.textAlign = 'center';
+            ctx.fillText('Nhấn Bắt Đầu Để Chơi Game!', canvas.width / 2, canvas.height / 2);
+        }
+
+        function startArcadeGame() {
+            document.getElementById('game-overlay').classList.add('hidden');
+            score = 0;
+            health = 100;
+            totalPavedCount = 0;
+            playerLane = 1;
+            obstacles = [];
+            powerups = [];
+            activePowerUp = null;
+            powerUpTimer = 0;
+            gameRunning = true;
+            updateHUD();
+
+            if (gameLoopId) cancelAnimationFrame(gameLoopId);
+            arcadeGameLoop();
+        }
+
+        function movePlayer(dir) {
+            if (!gameRunning) return;
+            playerLane = Math.max(0, Math.min(2, playerLane + dir));
+        }
+
+        function triggerQuickPave() {
+            if (!gameRunning) return;
+            let playerY = 410;
+            let pavedAny = false;
+
+            obstacles.forEach((obs) => {
+                if (obs.lane === playerLane && obs.y > playerY - 140 && obs.y < playerY + 50 && !obs.repaired) {
+                    obs.repaired = true;
+                    pavedAny = true;
+                    totalPavedCount++;
+                    let earnedMultiplier = (activePowerUp === 'E') ? 2 : 1;
+                    score += 200 * earnedMultiplier;
+                }
+            });
+
+            if (pavedAny) {
+                updateHUD();
+            }
+        }
+
+        function arcadeGameLoop() {
+            if (!gameRunning) return;
+
+            // 1. Clear & Draw Animated Road Background
+            ctx.fillStyle = '#111827';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            // Sidewalk curbs
+            ctx.fillStyle = '#E31837';
+            ctx.fillRect(0, 0, 12, canvas.height);
+            ctx.fillRect(canvas.width - 12, 0, 12, canvas.height);
+
+            // Animated Lane Lines
+            ctx.strokeStyle = '#f8fafc';
+            ctx.setLineDash([20, 20]);
+            ctx.lineDashOffset = -Date.now() / 15 % 40;
+            ctx.lineWidth = 4;
+            ctx.beginPath();
+            ctx.moveTo(140, 0); ctx.lineTo(140, canvas.height);
+            ctx.moveTo(260, 0); ctx.lineTo(260, canvas.height);
+            ctx.stroke();
+            ctx.setLineDash([]); // reset
+
+            // Handle Active Power-Up Countdown
+            if (activePowerUp && powerUpTimer > 0) {
+                powerUpTimer--;
+                if (powerUpTimer <= 0) {
+                    activePowerUp = null;
+                    document.getElementById('powerup-status').innerText = 'Không có';
+                    document.getElementById('powerup-status').className = 'text-xs font-black text-slate-300';
+                }
+            }
+
+            // 2. Spawn Obstacles (Potholes)
+            if (Math.random() < 0.035) {
+                let laneChoice = Math.floor(Math.random() * 3);
+                obstacles.push({
+                    lane: laneChoice,
+                    x: lanes[laneChoice],
+                    y: -50,
+                    repaired: false
+                });
+            }
+
+            // 3. Spawn PESO Power-ups
+            if (Math.random() < 0.008 && powerups.length === 0) {
+                let types = ['P', 'E', 'S', 'O'];
+                let chosenType = types[Math.floor(Math.random() * types.length)];
+                let laneChoice = Math.floor(Math.random() * 3);
+                powerups.push({
+                    type: chosenType,
+                    lane: laneChoice,
+                    x: lanes[laneChoice],
+                    y: -40
+                });
+            }
+
+            // 4. Update & Render Power-ups
+            for (let i = powerups.length - 1; i >= 0; i--) {
+                let p = powerups[i];
+                p.y += 4;
+
+                // Draw Power-up Badge
+                ctx.save();
+                ctx.translate(p.x, p.y);
+                ctx.beginPath();
+                ctx.arc(0, 0, 18, 0, Math.PI * 2);
+                ctx.fillStyle = p.type === 'P' ? '#E31837' : p.type === 'E' ? '#006491' : p.type === 'S' ? '#f59e0b' : '#10b981';
+                ctx.fill();
+                ctx.lineWidth = 3;
+                ctx.strokeStyle = '#ffffff';
+                ctx.stroke();
+
+                ctx.fillStyle = '#ffffff';
+                ctx.font = '900 16px Lexend';
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'middle';
+                ctx.fillText(p.type, 0, 1);
+                ctx.restore();
+
+                // Collision with Player
+                if (p.lane === playerLane && p.y > 380 && p.y < 450) {
+                    activatePowerUp(p.type);
+                    powerups.splice(i, 1);
+                    continue;
+                }
+
+                if (p.y > canvas.height + 40) {
+                    powerups.splice(i, 1);
+                }
+            }
+
+            // 5. Update & Render Potholes
+            for (let i = obstacles.length - 1; i >= 0; i--) {
+                let obs = obstacles[i];
+                obs.y += 5;
+
+                // Steamroller Power-up (P) auto-repairs
+                if (activePowerUp === 'P' && !obs.repaired && obs.y > 200) {
+                    obs.repaired = true;
+                    totalPavedCount++;
+                    score += 150;
+                }
+
+                if (obs.repaired) {
+                    // Sealed Patch
+                    ctx.fillStyle = '#006491';
+                    ctx.beginPath();
+                    ctx.roundRect(obs.x - 30, obs.y - 18, 60, 36, 8);
+                    ctx.fill();
+                    ctx.lineWidth = 2;
+                    ctx.strokeStyle = '#f59e0b';
+                    ctx.stroke();
+
+                    ctx.fillStyle = '#ffffff';
+                    ctx.font = '800 9px Lexend';
+                    ctx.textAlign = 'center';
+                    ctx.fillText('OH YES WE DID', obs.x, obs.y + 3);
+                } else {
+                    // Deep Dark Pothole
+                    ctx.fillStyle = '#030712';
+                    ctx.beginPath();
+                    ctx.ellipse(obs.x, obs.y, 28, 16, 0, 0, Math.PI * 2);
+                    ctx.fill();
+                    ctx.lineWidth = 3;
+                    ctx.strokeStyle = '#ef4444';
+                    ctx.stroke();
+
+                    // Danger Icon
+                    ctx.fillStyle = '#ef4444';
+                    ctx.font = '10px Plus Jakarta Sans';
+                    ctx.textAlign = 'center';
+                    ctx.fillText('⚠️', obs.x, obs.y + 4);
+                }
+
+                // Collision Detection with Scooter
+                let playerY = 410;
+                if (!obs.repaired && obs.lane === playerLane && obs.y > playerY - 25 && obs.y < playerY + 25) {
+                    if (activePowerUp === 'O') {
+                        // Shielded from damage!
+                        obs.repaired = true;
+                    } else {
+                        health -= 20;
+                        obstacles.splice(i, 1);
+                        updateHUD();
+
+                        if (health <= 0) {
+                            endArcadeGame();
+                            return;
+                        }
+                        continue;
+                    }
+                }
+
+                if (obs.y > canvas.height + 40) {
+                    if (obs.repaired) {
+                        let earnedMultiplier = (activePowerUp === 'E') ? 2 : 1;
+                        score += 50 * earnedMultiplier;
+                    }
+                    obstacles.splice(i, 1);
+                    updateHUD();
+                }
+            }
+
+            // 6. Render Player Scooter / Steamroller
+            let playerX = lanes[playerLane];
+            let playerY = 410;
+
+            if (activePowerUp === 'P') {
+                // Steamroller Mode Body
+                ctx.fillStyle = '#E31837';
+                ctx.fillRect(playerX - 28, playerY - 20, 56, 45);
+                ctx.fillStyle = '#000000';
+                ctx.fillRect(playerX - 32, playerY + 15, 64, 18);
+                ctx.fillStyle = '#f59e0b';
+                ctx.font = '900 10px Lexend';
+                ctx.textAlign = 'center';
+                ctx.fillText('STEAMROLLER', playerX, playerY - 5);
+            } else {
+                // Domino's Scooter Body
+                ctx.fillStyle = '#E31837';
+                ctx.fillRect(playerX - 16, playerY - 15, 32, 45);
+
+                // Driver Helmet
+                ctx.fillStyle = '#006491';
+                ctx.beginPath();
+                ctx.arc(playerX, playerY - 22, 12, 0, Math.PI * 2);
+                ctx.fill();
+
+                // Pizza Box Back
+                ctx.fillStyle = '#f59e0b';
+                ctx.fillRect(playerX - 20, playerY + 15, 40, 16);
+                ctx.fillStyle = '#000000';
+                ctx.font = '900 8px Lexend';
+                ctx.textAlign = 'center';
+                ctx.fillText("DOMINO'S", playerX, playerY + 26);
+
+                // Owned Shield Effect (O)
+                if (activePowerUp === 'O') {
+                    ctx.strokeStyle = '#10b981';
+                    ctx.lineWidth = 4;
+                    ctx.beginPath();
+                    ctx.arc(playerX, playerY, 35, 0, Math.PI * 2);
+                    ctx.stroke();
+                }
+            }
+
+            gameLoopId = requestAnimationFrame(arcadeGameLoop);
+        }
+
+        function activatePowerUp(type) {
+            activePowerUp = type;
+            powerUpTimer = 300; // ~5 Seconds
+
+            const statusEl = document.getElementById('powerup-status');
+            if (type === 'P') {
+                statusEl.innerText = 'P - Xe Lu Vá Đường 🚜';
+                statusEl.className = 'text-xs font-black text-red-400 animate-pulse';
+            } else if (type === 'E') {
+                statusEl.innerText = 'E - Báo Chí Flash x2 📸';
+                statusEl.className = 'text-xs font-black text-sky-400 animate-pulse';
+            } else if (type === 'S') {
+                statusEl.innerText = 'S - Viral Wave +20% Bánh ❤️';
+                statusEl.className = 'text-xs font-black text-amber-400 animate-pulse';
+                health = Math.min(100, health + 20);
+                updateHUD();
+            } else if (type === 'O') {
+                statusEl.innerText = 'O - Khiên Pizza Bảo Vệ 🛡️';
+                statusEl.className = 'text-xs font-black text-emerald-400 animate-pulse';
+            }
+        }
+
+        function updateHUD() {
+            document.getElementById('game-score').innerText = score;
+            const healthBar = document.getElementById('pizza-health-bar');
+            const healthText = document.getElementById('pizza-health');
+
+            if (healthBar && healthText) {
+                healthBar.style.width = `${Math.max(0, health)}%`;
+                healthText.innerText = `${Math.max(0, health)}%`;
+
+                if (health > 60) {
+                    healthBar.className = "bg-emerald-500 h-full rounded-full transition-all duration-300";
+                    healthText.className = "text-xs sm:text-sm font-black text-emerald-400";
+                } else if (health > 30) {
+                    healthBar.className = "bg-amber-500 h-full rounded-full transition-all duration-300";
+                    healthText.className = "text-xs sm:text-sm font-black text-amber-400";
+                } else {
+                    healthBar.className = "bg-red-500 h-full rounded-full transition-all duration-300";
+                    healthText.className = "text-xs sm:text-sm font-black text-red-400";
+                }
+            }
+        }
+
+        function endArcadeGame() {
+            gameRunning = false;
+            let rank = "S";
+            let rankColor = "text-yellow-400";
+            if (score < 1000) { rank = "B"; rankColor = "text-sky-400"; }
+            else if (score < 2500) { rank = "A"; rankColor = "text-emerald-400"; }
+
+            document.getElementById('game-overlay').classList.remove('hidden');
+            document.getElementById('game-overlay').innerHTML = `
+                <div class="text-5xl animate-bounce">🏆🍕</div>
+                <h3 class="text-3xl font-black text-yellow-300 uppercase font-heading">Hoàn Thành Chuyến Giao Bánh!</h3>
+                
+                <div class="bg-slate-900/90 border-2 border-slate-700 p-4 rounded-2xl w-full max-w-sm space-y-2 text-left text-xs">
+                    <div class="flex justify-between">
+                        <span class="text-slate-400">Xếp hạng giao hàng:</span>
+                        <span class="font-black text-2xl ${rankColor}">HẠNG ${rank}</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-slate-400">Tổng điểm PR Campaign:</span>
+                        <span class="font-black text-yellow-400 text-sm">${score} PTS</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-slate-400">Số ổ gà đã vá phẳng:</span>
+                        <span class="font-black text-emerald-400 text-sm">${totalPavedCount} Vết Vá</span>
+                    </div>
+                </div>
+
+                <button onclick="startArcadeGame()" class="bg-[#E31837] hover:bg-red-600 active:scale-95 text-white font-black px-8 py-3.5 rounded-2xl border-2 border-black pop-shadow uppercase text-sm tracking-wider">
+                    Thử Lại Để Đạt Hạng S 🔄
+                </button>
+            `;
+        }
+
+        // Global Keyboard Controls
+        window.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowLeft') movePlayer(-1);
+            if (e.key === 'ArrowRight') movePlayer(1);
+            if (e.code === 'Space') {
+                e.preventDefault();
+                triggerQuickPave();
+            }
+        });
+
+        // Window Onload Default Initialization
+        window.onload = function() {
+            showPage('home');
+        };
+    </script>
+</body>
+</html>
