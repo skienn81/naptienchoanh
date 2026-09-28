@@ -1,0 +1,6 @@
+{
+  "name": "Domino's - Paving For Pizza Interactive Case Study",
+  "description": "Khám phá chiến dịch truyền thông huyền thoại Paving for Pizza của Domino's: Mô hình PESO 3D, Game Pothole Hero và mô phỏng vá đường tại Việt Nam.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
