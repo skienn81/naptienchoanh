@@ -10,14 +10,10 @@ import {
   Box, 
   Lightbulb, 
   Gamepad2, 
-  BookOpen, 
-  Layout, 
   ChevronUp, 
   ChevronDown, 
   Maximize, 
-  Minimize,
-  Pin,
-  PinOff
+  Minimize
 } from 'lucide-react';
 import { sounds } from '../utils/audio';
 
@@ -27,8 +23,6 @@ interface NavbarProps {
   soundEnabled: boolean;
   onToggleSound: () => void;
   brandTheme?: 'classic' | 'modern' | 'cyber';
-  viewMode?: 'interactive' | 'flipbook';
-  onToggleViewMode?: () => void;
 }
 
 export const Navbar: React.FC<NavbarProps> = ({
@@ -36,11 +30,8 @@ export const Navbar: React.FC<NavbarProps> = ({
   onPageChange,
   soundEnabled,
   onToggleSound,
-  viewMode = 'interactive',
-  onToggleViewMode,
 }) => {
   const [isCollapsed, setIsCollapsed] = useState<boolean>(false);
-  const [isPinned, setIsPinned] = useState<boolean>(false);
   const [isFullscreen, setIsFullscreen] = useState<boolean>(false);
 
   // Auto hide on scroll down, auto show on scroll up
@@ -48,7 +39,6 @@ export const Navbar: React.FC<NavbarProps> = ({
     let lastY = window.scrollY;
     const handleScroll = () => {
       const currentY = window.scrollY;
-      if (isPinned) return;
 
       if (currentY > lastY + 12 && currentY > 70) {
         // Scrolling down past threshold -> slide up / collapse
@@ -62,7 +52,7 @@ export const Navbar: React.FC<NavbarProps> = ({
 
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
-  }, [isPinned]);
+  }, []);
 
   // Fullscreen change listener
   useEffect(() => {
@@ -108,19 +98,19 @@ export const Navbar: React.FC<NavbarProps> = ({
         />
       )}
 
-      {/* Main Collapsible Header */}
+      {/* Main Collapsible Header with Rounded Borders */}
       <header 
-        className={`fixed top-0 left-0 right-0 z-50 bg-[#006491] border-b-4 border-black pop-shadow py-2.5 px-3 sm:px-6 transition-transform duration-300 ease-in-out ${
+        className={`fixed top-0 left-0 right-0 z-50 bg-[#006491] border-b-4 border-black rounded-b-2xl pop-shadow py-2.5 px-3 sm:px-6 transition-transform duration-300 ease-in-out ${
           isCollapsed ? '-translate-y-full' : 'translate-y-0'
         }`}
       >
         <div className="max-w-7xl mx-auto flex flex-wrap justify-between items-center gap-3">
-          {/* Brand Logo - Crisp sharp border */}
+          {/* Brand Logo - Rounded Modern Architecture */}
           <div
             onClick={() => handleNavClick('home')}
-            className="cursor-pointer flex items-center gap-2.5 bg-white px-3.5 py-1.5 rounded-none border-2 border-black shadow-[3px_3px_0px_#000] hover:-translate-y-0.5 active:translate-y-0 transition-transform"
+            className="cursor-pointer flex items-center gap-2.5 bg-white px-3.5 py-1.5 rounded-2xl border-2 border-black shadow-[3px_3px_0px_#000] hover:-translate-y-0.5 active:translate-y-0 transition-transform"
           >
-            <div className="w-8 h-8 rounded-none bg-[#E31837] text-white flex items-center justify-center border-2 border-black">
+            <div className="w-8 h-8 rounded-xl bg-[#E31837] text-white flex items-center justify-center border-2 border-black">
               <Pizza className="w-4 h-4 text-yellow-300 animate-pulse" />
             </div>
             <div>
@@ -133,15 +123,15 @@ export const Navbar: React.FC<NavbarProps> = ({
             </div>
           </div>
 
-          {/* Navigation Tabs - Sharp, Editorial, Non-rounded Styling */}
-          <nav className="flex flex-wrap items-center gap-1 sm:gap-1.5 text-xs font-bold">
+          {/* Navigation Tabs - Fully Rounded Friendly Styling */}
+          <nav className="flex flex-wrap items-center gap-1 sm:gap-2 text-xs font-bold">
             {navItems.map((item) => {
               const isActive = currentPage === item.id;
               return (
                 <button
                   key={item.id}
                   onClick={() => handleNavClick(item.id)}
-                  className={`group relative flex items-center gap-1.5 px-3 py-2 text-xs uppercase tracking-wide font-extrabold transition-all duration-150 rounded-none border-2 border-black cursor-pointer ${
+                  className={`group relative flex items-center gap-1.5 px-3.5 py-2 text-xs uppercase tracking-wide font-extrabold transition-all duration-150 rounded-xl border-2 border-black cursor-pointer ${
                     isActive
                       ? 'bg-yellow-300 text-slate-950 shadow-[4px_4px_0px_#000] -translate-x-0.5 -translate-y-0.5 z-10'
                       : item.isSpecial
@@ -149,9 +139,9 @@ export const Navbar: React.FC<NavbarProps> = ({
                       : 'bg-white hover:bg-amber-50 text-slate-900 hover:shadow-[3px_3px_0px_#000] hover:-translate-y-0.5'
                   }`}
                 >
-                  {/* Active indicator bar */}
+                  {/* Active indicator bar - Rounded */}
                   {isActive && (
-                    <span className="absolute -top-1.5 left-0 right-0 h-1 bg-[#E31837] border-x-2 border-t-2 border-black" />
+                    <span className="absolute -top-1.5 left-2 right-2 h-1 bg-[#E31837] rounded-full border border-black" />
                   )}
                   <span className={`transition-transform duration-150 ${isActive ? 'scale-110 text-[#006491]' : 'group-hover:scale-110'}`}>
                     {item.icon}
@@ -164,62 +154,18 @@ export const Navbar: React.FC<NavbarProps> = ({
             })}
           </nav>
 
-          {/* Action Controls: View Mode, Fullscreen, Pin, Sound Effect */}
-          <div className="flex items-center gap-1.5 sm:gap-2">
-            {onToggleViewMode && (
-              <button
-                onClick={() => {
-                  sounds.playClick();
-                  onToggleViewMode();
-                }}
-                className="flex items-center gap-1.5 px-2.5 sm:px-3 py-1.5 bg-yellow-400 hover:bg-yellow-300 text-slate-950 font-black text-xs uppercase tracking-wide border-2 border-black shadow-[2px_2px_0px_#000] active:translate-y-0.5 transition-transform cursor-pointer"
-                title="Chuyển đổi giữa Bản Web Ấn và Bản Tạp Chí Lật Trang"
-              >
-                {viewMode === 'interactive' ? (
-                  <>
-                    <BookOpen className="w-4 h-4 text-[#E31837]" />
-                    <span className="hidden sm:inline">Xem Bản Lật Trang</span>
-                    <span className="sm:hidden">Lật Trang</span>
-                  </>
-                ) : (
-                  <>
-                    <Layout className="w-4 h-4 text-[#006491]" />
-                    <span className="hidden sm:inline">Xem Bản Web Ấn</span>
-                    <span className="sm:hidden">Bản Web</span>
-                  </>
-                )}
-              </button>
-            )}
-
+          {/* Clean Action Controls: Only Fullscreen & Sound - Rounded Elements */}
+          <div className="flex items-center gap-2">
             {/* Toggle Fullscreen Screen */}
             <button
               onClick={toggleFullscreen}
               title={isFullscreen ? 'Thu nhỏ cửa sổ' : 'Phóng to Toàn màn hình (Full Screen)'}
-              className="p-2 rounded-none bg-white border-2 border-black shadow-[2px_2px_0px_#000] hover:bg-slate-100 text-slate-800 active:translate-y-0.5 transition-transform cursor-pointer"
+              className="p-2 rounded-xl bg-white border-2 border-black shadow-[2px_2px_0px_#000] hover:bg-slate-100 text-slate-800 active:translate-y-0.5 transition-transform cursor-pointer"
             >
               {isFullscreen ? (
                 <Minimize className="w-4 h-4 text-[#006491]" />
               ) : (
                 <Maximize className="w-4 h-4 text-[#006491]" />
-              )}
-            </button>
-
-            {/* Pin / Lock Header (Don't auto hide on scroll) */}
-            <button
-              onClick={() => {
-                sounds.playClick();
-                setIsPinned(!isPinned);
-                if (isCollapsed) setIsCollapsed(false);
-              }}
-              title={isPinned ? 'Bỏ ghim (Cho phép tự động ẩn khi cuộn)' : 'Ghim thanh điều hướng (Luôn hiển thị)'}
-              className={`p-2 rounded-none border-2 border-black shadow-[2px_2px_0px_#000] active:translate-y-0.5 transition-transform cursor-pointer ${
-                isPinned ? 'bg-yellow-300 text-slate-950 font-black' : 'bg-white hover:bg-slate-100 text-slate-800'
-              }`}
-            >
-              {isPinned ? (
-                <PinOff className="w-4 h-4 text-[#E31837]" />
-              ) : (
-                <Pin className="w-4 h-4 text-slate-600" />
               )}
             </button>
 
@@ -230,7 +176,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                 onToggleSound();
               }}
               title={soundEnabled ? 'Tắt âm thanh hiệu ứng' : 'Bật âm thanh hiệu ứng'}
-              className="p-2 rounded-none bg-white border-2 border-black shadow-[2px_2px_0px_#000] hover:bg-slate-100 text-slate-800 active:translate-y-0.5 transition-transform cursor-pointer"
+              className="p-2 rounded-xl bg-white border-2 border-black shadow-[2px_2px_0px_#000] hover:bg-slate-100 text-slate-800 active:translate-y-0.5 transition-transform cursor-pointer"
             >
               {soundEnabled ? (
                 <Volume2 className="w-4 h-4 text-emerald-600" />
@@ -241,7 +187,7 @@ export const Navbar: React.FC<NavbarProps> = ({
           </div>
         </div>
 
-        {/* Thò ra / Thụt vào Pull Tab Handle (Hangs down from header bottom) */}
+        {/* Thò ra / Thụt vào Pull Tab Handle - Beautiful Rounded Pill */}
         <div className="absolute -bottom-7 left-1/2 -translate-x-1/2 flex items-center">
           <button
             onClick={() => {
@@ -251,7 +197,7 @@ export const Navbar: React.FC<NavbarProps> = ({
             onMouseEnter={() => {
               if (isCollapsed) setIsCollapsed(false);
             }}
-            className="flex items-center gap-1.5 px-3 py-1 bg-yellow-400 hover:bg-yellow-300 text-slate-950 font-black text-[11px] uppercase tracking-wider border-2 border-black border-t-0 shadow-[2px_3px_0px_#000] cursor-pointer transition-transform active:translate-y-0.5 select-none"
+            className="flex items-center gap-1.5 px-3.5 py-1 bg-yellow-400 hover:bg-yellow-300 text-slate-950 font-black text-[11px] uppercase tracking-wider rounded-full border-2 border-black shadow-[2px_3px_0px_#000] cursor-pointer transition-transform active:translate-y-0.5 select-none"
             title={isCollapsed ? 'Nhấp hoặc rê chuột để thò ra menu' : 'Nhấp để thụt vào (Trải nghiệm Full screen)'}
           >
             {isCollapsed ? (

@@ -14,7 +14,7 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
   };
 
   return (
-    <footer className="bg-slate-900 text-white border-t-4 border-black mt-16 py-8 px-4 text-center">
+    <footer className="bg-slate-900 text-white border-t-4 border-black rounded-t-3xl mt-16 py-8 px-4 text-center">
       <div className="max-w-7xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-4 text-xs sm:text-sm font-medium text-slate-400">
         <div className="flex items-center gap-2">
           <Pizza className="w-5 h-5 text-[#E31837]" />

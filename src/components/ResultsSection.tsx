@@ -73,14 +73,14 @@ export const ResultsSection: React.FC = () => {
 
   return (
     <div className="space-y-8 animate-fadeIn">
-      {/* Header - Editorial Sharp Architecture */}
-      <div className="relative bg-white border-2 border-black shadow-[6px_6px_0px_#000000] p-6 sm:p-8 overflow-hidden">
+      {/* Header - Editorial Rounded Architecture */}
+      <div className="relative bg-white rounded-3xl border-3 border-black shadow-[6px_6px_0px_#000000] p-6 sm:p-8 overflow-hidden">
         <div className="absolute top-0 left-0 right-0 h-1.5 bg-amber-400" />
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div className="space-y-3 max-w-4xl">
             <div className="flex items-center gap-3">
-              <span className="inline-flex items-center gap-1.5 bg-yellow-400 text-black text-[11px] font-black px-3 py-1 uppercase tracking-widest border border-black shadow-[2px_2px_0px_#000]">
-                <span className="w-1.5 h-1.5 bg-black" />
+              <span className="inline-flex items-center gap-1.5 bg-yellow-400 text-black text-[11px] font-black px-3.5 py-1 rounded-full uppercase tracking-widest border border-black shadow-[2px_2px_0px_#000]">
+                <span className="w-1.5 h-1.5 rounded-full bg-black" />
                 Chương 03 / Đo Lường
               </span>
               <span className="text-[11px] font-bold text-slate-500 uppercase tracking-wider hidden sm:inline">

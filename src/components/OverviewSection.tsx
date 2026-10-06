@@ -7,16 +7,16 @@ export const OverviewSection: React.FC = () => {
 
   return (
     <div className="space-y-8 animate-fadeIn">
-      {/* Header Banner - Sophisticated Editorial & Sharp Architecture */}
-      <div className="relative bg-white border-2 border-black shadow-[6px_6px_0px_#000000] p-6 sm:p-8 overflow-hidden">
+      {/* Header Banner - Rounded Editorial Architecture */}
+      <div className="relative bg-white rounded-3xl border-3 border-black shadow-[6px_6px_0px_#000000] p-6 sm:p-8 overflow-hidden">
         {/* Top accent line */}
         <div className="absolute top-0 left-0 right-0 h-1.5 bg-[#006491]" />
         
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div className="space-y-3 max-w-4xl">
             <div className="flex items-center gap-3">
-              <span className="inline-flex items-center gap-1.5 bg-[#006491] text-white text-[11px] font-black px-3 py-1 uppercase tracking-widest border border-black shadow-[2px_2px_0px_#000]">
-                <span className="w-1.5 h-1.5 bg-yellow-300" />
+              <span className="inline-flex items-center gap-1.5 bg-[#006491] text-white text-[11px] font-black px-3.5 py-1 rounded-full uppercase tracking-widest border border-black shadow-[2px_2px_0px_#000]">
+                <span className="w-1.5 h-1.5 rounded-full bg-yellow-300" />
                 Chương 01 / Tổng Quan
               </span>
               <span className="text-[11px] font-bold text-slate-500 uppercase tracking-wider hidden sm:inline">
