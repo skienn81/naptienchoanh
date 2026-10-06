@@ -46,7 +46,7 @@ export default function App() {
           />
 
           {/* Main Content Area */}
-          <main className="flex-1 max-w-7xl w-full mx-auto px-3 sm:px-6 py-6 sm:py-8">
+          <main className="flex-1 max-w-7xl w-full mx-auto px-3 sm:px-6 pt-20 sm:pt-24 pb-8 sm:pb-12">
             {currentPage === 'home' && <HomeSection onNavigate={handlePageChange} />}
             {currentPage === 'page1' && <OverviewSection />}
             {currentPage === 'page2' && <PesoSection />}
